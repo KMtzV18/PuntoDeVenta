@@ -466,7 +466,7 @@ public class DaoPuntoDeVenta {
             LocalDateTime f = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String fechaHoraFormateada = f.format(formato);
-            int n=contarTickets();
+            int n  =contarTickets();
             String nombreArchivo = "ticket"+n+".txt";
             File Archivo=new File(nombreArchivo);
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(Archivo))) {

@@ -182,8 +182,13 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-       
+        try {
+            // TODO add your handling code here:
+            registro r = new registro();
+            r.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Empleados.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton4ActionPerformed
 

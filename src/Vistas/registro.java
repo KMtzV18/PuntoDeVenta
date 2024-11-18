@@ -193,8 +193,7 @@ public class registro extends javax.swing.JFrame {
             
             if (dre.registrar(nombreC, usuario, password)) {
                 try {
-                    Menu menu = new Menu();
-                    menu.setVisible(true);
+                   
                     this.dispose();
                 } catch (Exception ex) {
                     Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);

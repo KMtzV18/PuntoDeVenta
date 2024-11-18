@@ -1,0 +1,12 @@
+===== Ticket de Venta =====
+Empleado: k
+Fecha: 2024-11-17 22:24:52
+===========================
+Detalles de la Venta:
+Codigo Producto Cantidad        Precio Unit.    Total          
+COCA            2               19.70           39.40          
+PAN             10              9.00            90.00          
+===========================
+Total de la venta: 129.40
+===========================
+Gracias por su compra!
