@@ -21,12 +21,23 @@ import javax.swing.JOptionPane;
  * @author kevmt
  */
 public class registro extends javax.swing.JFrame {
-    public void llenar(String nombre,String usuario,String contraseña, boolean activo) throws Exception{
+    private int mod = 0;
+    public static String user;
+
+    public static String getUser() {
+        return user;
+    }
+    
+    public void llenar(String nombre,String usuario,String contraseña, boolean activo, int modificar) throws Exception{
         this.txtnombre.setText(nombre);
         this.txtusuario.setText(usuario);
         this.passw.setText(contraseña);
         this.CBactivo.setSelected(activo);
-        
+        this.mod = modificar;
+        this.user = usuario;
+//        if (mod == 1) {
+//                txtusuario.enable(false);
+//            }
     }
     /**
      * Creates new form registro
@@ -191,7 +202,7 @@ public class registro extends javax.swing.JFrame {
             
             
             
-            if (dre.registrar(nombreC, usuario, password)) {
+            if (dre.registrar(nombreC, usuario, password,mod)) {
                 try {
                    
                     this.dispose();

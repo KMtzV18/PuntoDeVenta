@@ -73,11 +73,11 @@ public static boolean conexion(String username, String password) throws Exceptio
             String storedHash = rs.getString("password");
 
             // Hashear la contraseña ingresada por el usuario
-            String hashPassword = hashPasswordSHA256(password);
+            //String hashPassword = hashPasswordSHA256(password);
             
 
             // Verificar si el hash de la contraseña ingresada coincide con el almacenado
-            if (hashPassword.equals(storedHash) && act) {
+            if (password.equals(storedHash) && act) {
                 return true;  // Login exitoso
             } else {
                 return false; // Contraseña incorrecta

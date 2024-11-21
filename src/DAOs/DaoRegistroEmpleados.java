@@ -26,7 +26,8 @@ public class DaoRegistroEmpleados {
         return DriverManager.getConnection(url, usuario, contraseña);
     }
     
-  public boolean registrar(String nombre, String usuario, String password) {
+  public boolean registrar(String nombre, String usuario, String password,int mod) throws Exception {
+      String user = new registro().getUser();
       if (usuario.length()<4) {
           JOptionPane.showMessageDialog(null, "La longitud del usuario debe ser de 8 caracteres minimo");
           return false;
@@ -50,14 +51,33 @@ public class DaoRegistroEmpleados {
         PreparedStatement checkUserPstmt = conn.prepareStatement(checkUserSql);
         checkUserPstmt.setString(1, usuario);
         ResultSet checkUserRs = checkUserPstmt.executeQuery();
-
+        if (mod == 1) {
+//            String user = "";
+//            String sql1 = "select usuario from empleados where usuario = ?";
+//            pstmt = conn.prepareStatement(sql1);
+//            pstmt.setString(1, usuario);
+//            rs = pstmt.executeQuery();
+//            if (rs.next()) {
+//                user = rs.getString("usuario");
+//            }
+            String sql = "update empleados set nombre_completo = ? , usuario = ?, password = ?, activo = ? where usuario = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, usuario);
+            pstmt.setString(3, password);
+            pstmt.setInt(4, mod);
+            pstmt.setString(5, user);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Modificado Correctamente");
+            return true;
+        }else{
         if (checkUserRs.next() && checkUserRs.getInt(1) > 0) {
             JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe.");
             return false;  // Usuario ya existe, salimos del método
         }else{
 
         // Insertar nuevo usuario
-        String sql = "INSERT INTO empleados (nombre_completo, usuario, password) VALUES (?, ?, SHA2(?, 256))";
+        String sql = "INSERT INTO empleados (nombre_completo, usuario, password) VALUES (?, ?, ?)";
         pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, nombre);
         pstmt.setString(2, usuario);
@@ -72,7 +92,7 @@ public class DaoRegistroEmpleados {
             JOptionPane.showMessageDialog(null, "Error en el registro.");
             return false;  // Registro fallido
         }
-        }
+        }}
     } catch (ClassNotFoundException | SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error al conectar a la base de datos: " + e.getMessage());
@@ -88,5 +108,5 @@ public class DaoRegistroEmpleados {
         }
     }
 }
-  
+
 }

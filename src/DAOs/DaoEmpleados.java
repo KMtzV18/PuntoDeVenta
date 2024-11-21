@@ -17,20 +17,16 @@ import javax.swing.table.DefaultTableModel;
  * @author kevmt
  */
 public class DaoEmpleados {
-    public static void CargarTablaEmpleados(JTable tabla) throws ClassNotFoundException, SQLException, Exception{
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        //String codigo = (String)modelo.getValueAt(renglon, 0);
-        Agregar_Modificar am = new Agregar_Modificar();
-        modelo.setRowCount(0); 
-        String[] columnas = {"id_empleado", "nombre_completo", "usuario","password","Activo"};
-
-        
-        
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        
-        try {
+    public static void CargarTablaEmpleados(JTable tabla) throws ClassNotFoundException, SQLException, Exception {
+    DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+    modelo.setRowCount(0); 
+    String[] columnas = {"id_empleado", "nombre_completo", "usuario", "password", "Activo"};
+    
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    
+    try {
         // Cargar el driver de MySQL
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -42,27 +38,33 @@ public class DaoEmpleados {
         // Establecer la conexión
         conn = DriverManager.getConnection(url, dbUser, dbPassword);
 
-        // Consulta SQL para verificar el usuario y contraseña (hash almacenado)
-        String sql = "select * from empleados";
+        // Consulta SQL para obtener los datos de empleados
+        String sql = "SELECT * FROM empleados";
         pstmt = conn.prepareStatement(sql);
-        
-        
-        // Ejecutar la consulta
         rs = pstmt.executeQuery();
         
-         while (rs.next()) {
-            Object[] fila = new Object[columnas.length];  
+        // Procesar los resultados
+        while (rs.next()) {
+            Object[] fila = new Object[columnas.length];
             
             for (int j = 0; j < columnas.length; j++) {
-                fila[j] = rs.getObject(columnas[j]); 
+                if ("password".equals(columnas[j])) {
+                    // Mostrar los puntos en lugar de la contraseña real
+                    int puntos = rs.getString("password").length();
+                    String p = "";
+                    for (int i = 0; i < puntos; i++) {
+                         p += "*";
+                    }
+                    fila[j] = p;
+                } else {
+                    fila[j] = rs.getObject(columnas[j]);
+                }
             }
             
-            modelo.addRow(fila);  
+            modelo.addRow(fila);
         }
-            
-         } catch (ClassNotFoundException | SQLException e) {
+    } catch (ClassNotFoundException | SQLException e) {
         e.printStackTrace();
-        
     } finally {
         // Cerrar la conexión y liberar recursos
         try {
@@ -73,8 +75,8 @@ public class DaoEmpleados {
             e.printStackTrace();
         }
     }
-        
-    }
+}
+
     
     
     
@@ -148,7 +150,7 @@ public class DaoEmpleados {
         if (rs.next()) {
             // Obtenemos el hash almacenado en la base de datos
             //id = rs.getInt("id_empleado");
-            r.llenar(rs.getString("nombre_completo"), rs.getString("usuario"), rs.getString("password"),rs.getBoolean("activo"));
+            r.llenar(rs.getString("nombre_completo"), rs.getString("usuario"), rs.getString("password"),rs.getBoolean("activo"),1);
             r.setVisible(true);
             
          }
