@@ -376,6 +376,7 @@ public class PuntoDeVenta extends javax.swing.JFrame {
             txtCodProd.setText("");
             txtCodProd.requestFocus();
             tablaestatica = miTabla.getModel();
+            txtCantidad.setText("1");
             }else{
                 JOptionPane.showMessageDialog(null, "Este Producto Esta Descontinuado");
                 txtCodProd.setText("");
